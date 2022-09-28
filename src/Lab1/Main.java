@@ -19,7 +19,7 @@ public class Main {
         Cipher cipher1 = new CaesarCipher(13);
         encrypted = cipher1.encrypt(message);
 
-        System.out.println("Caesar Cipher:");
+        System.out.println("\nCaesar Cipher:");
         System.out.println("Encrypted: " + encrypted);
         System.out.println("Decrypted: " + cipher1.decrypt(encrypted) + "\n");
 
