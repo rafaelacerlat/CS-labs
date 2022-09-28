@@ -161,15 +161,19 @@ public class PlayfairCipher implements Cipher {
 
             // if both the characters are in the same row
             if (ch1Pos[0] == ch2Pos[0]) {
-                ch1Pos[1] = (ch1Pos[1] - 1) % 5;
-                ch2Pos[1] = (ch2Pos[1] - 1) % 5;
+                if (ch1Pos[1] > 0) ch1Pos[1] --;
+                else ch1Pos[1] = 4;
+                if (ch2Pos[1] > 0) ch2Pos[1] --;
+                else ch2Pos[1] = 4;
             }
 
             // if both the characters are in the same column
             else if (ch1Pos[1] == ch2Pos[1])
             {
-                ch1Pos[0] = (ch1Pos[0] - 1) % 5;
-                ch2Pos[0] = (ch2Pos[0] - 1) % 5;
+                if (ch1Pos[0] > 0) ch1Pos[0] --;
+                else ch1Pos[0] = 4;
+                if (ch2Pos[0] > 0) ch2Pos[0] --;
+                else ch2Pos[0] = 4;
             }
 
             // if both the characters are in different rows
