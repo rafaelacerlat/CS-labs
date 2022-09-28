@@ -10,7 +10,7 @@
 The Caesar cipher, also known as the shift cipher, is one that anyone can readily understand and remember for decoding. It is a form of the substitution cipher. By shifting the alphabet a few positions in either direction, a simple sentence can become unreadable to casual inspection.
 
 
-The Vigenère cipher is a method of encrypting alphabetic text by using a series of interwoven Caesar ciphers, based on the letters of a keyword. It employs a form of polyalphabetic substitution.
+The Vigenère cipher is a method of encrypting alphabetic text by using a series of interwoven Caesar ciphers, based on the letters of a keyword. It employs a form of polyalphabetic substitution. Vigenere is a cipher based on substitution, using multiple substitution alphabets. The encryption of the original text is done using the Vigenère square or Vigenère table, which consists of the alphabet written out 26 times in different rows, each alphabet shifted cyclically to the left compared to the previous alphabet, corresponding to the 26 possible Caesar Ciphers.
 
 
 The Playfair cipher is one of the traditional ciphers which comes under the category of substitution ciphers. The cipher's essential method involves creating key tables that arrange the letters of the alphabet into a square grid. With these key tables, the user separates the text of a message into two-letter bits. To encode the message, each two-letter bit is transposed on the 5x5 key table. Thus, to decode the message, the receiver requires the key table itself. Since the table/grid can accommodate only 25 characters, there is no ‘J’ in this table. Any ‘J’ in the plaintext is replaced by ‘I’. 
@@ -130,13 +130,45 @@ public class CaesarCipherWithPermutation extends  SubstitutionCipher{
     ...
 }
 ```
-* VigenereCipher 
+* In the VigenereCipher the key is a word or phrase that is repeated as many times as needed for the length of the message/plaintext. So, in the end each letter of the plaintext is paired with a letter from the keyword. Using the Vigenère table, or the algebraic formula we can encrypt and decrypt easily. 
 ```
-{
+public class VigenereCipher extends SubstitutionCipher{
+
+    private String key;
+    int j = 0;
+
+    public VigenereCipher(String message, String key)
+    {
+        int x = message.length();
+        key = key.toUpperCase();
+
+        for (int i = 0; ; i++)
+        {
+            if (x == i)
+                i = 0;
+            if (key.length() == message.length())
+                break;
+            key+=(key.charAt(i));
+        }
+        this.key = key;
+    }
+
+    @Override
+    protected Character encryptCharacter(Character currentChar) {
+        char res = (char) (((currentChar + key.charAt(j)) % ALPHABET_SIZE) + 65);
+        return res;
+
+    }
+
+    @Override
+    protected Character decryptCharacter(Character currentChar) {
+        char res = (char) (((currentChar - key.charAt(j) + ALPHABET_SIZE) % ALPHABET_SIZE) + 65);
+        return res;
+    }
 }
 ```
 
-* PlayfairCipher implements the Cipher interface. It is similar to the other traditional ciphers, the only difference is that it encrypts a digraph (a pair of two letters) instead of a single letter. First, we need the key table alphabet, so starting in the constructor method:
+* The PlayfairCipher implements the Cipher interface. It is similar to the other traditional ciphers, the only difference is that it encrypts a digraph (a pair of two letters) instead of a single letter. First, we need the key table alphabet, so starting in the constructor method:
  1. if the keyword contains ‘J’, then it is replaced by ‘I’;
  2. all the duplicate characters are removed;
  3. the rest of the letters are included, besides ‘J’;
@@ -275,8 +307,12 @@ The encrypt() method goes through each digraph and gets the position in the tabl
         return encText;
     }
  ```
- The decryption procedure is the same as encryption but the steps are applied in reverse order. The receiver of the plain text has the same key and can create the same key-table that is used to decrypt the message.
+ The decryption procedure is the same as encryption but the steps are applied in reverse order. The receiver of the encrypted message has the same key and can create the same key-table that is used to decrypt the message.
 
 ## Conclusions / Screenshots / Results
+Classical ciphers are part of history and they range in complexity from very simple to very complex. None of these algorithms are very secure as far as protecting information goes, because today's computers can break any of them with relative ease. But, they can still provide a quick and fascinating way to encrypt text just for fun. In the end, for me the most interesting was the Playfair Cipher. 
+
+![image](https://user-images.githubusercontent.com/41265306/192862791-9c140d2d-ec42-47ee-a292-174489dd0058.png)
+
 
 
