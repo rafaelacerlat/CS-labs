@@ -1,4 +1,4 @@
-package Lab1.Ciphers;
+package Ciphers.ClassicalCiphers;
 
 public class VigenereCipher extends SubstitutionCipher{
 
