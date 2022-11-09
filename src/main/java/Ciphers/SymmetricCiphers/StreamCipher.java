@@ -55,7 +55,6 @@ public class StreamCipher implements ClassicalCipher {
             } else {
                 result += tmpStr;
             }
-            //result += " "; // separator
         }
 
         for(char c: result.toCharArray()){

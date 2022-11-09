@@ -9,6 +9,7 @@ public class RC4 implements SymmetricCipher {
 
 
     private void scheduleKey(String keyword){
+
         byte[] key = new byte[keyword.length()];
 
         for (int i = 0; i < 256; i++) {
