@@ -14,7 +14,7 @@ public class RC4 implements SymmetricCipher {
 
         for (int i = 0; i < 256; i++) {
             S[i] = (byte) i;
-            K[i] = key[i % keyword.length()];// elements of the key array are repeated
+            K[i] = key[i % keyword.length()]; // elements of the key array are repeated
         }
 
         // key scheduling algorithm
