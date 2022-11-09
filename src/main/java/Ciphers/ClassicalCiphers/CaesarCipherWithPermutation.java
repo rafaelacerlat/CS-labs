@@ -1,7 +1,4 @@
-package Lab1.Ciphers;
-
-import java.util.*;
-import java.util.stream.Collectors;
+package Ciphers.ClassicalCiphers;
 
 public class CaesarCipherWithPermutation extends  SubstitutionCipher{
     private final int key;

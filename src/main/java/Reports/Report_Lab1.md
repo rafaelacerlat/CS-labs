@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Topic: Intro to Cryptography. Classical ciphers. 
+=======
+# The title of the work
+>>>>>>> origin/Lab2
 
 ### Course: Cryptography & Security
 ### Author: Rafaela Cerlat
@@ -6,6 +10,7 @@
 ----
 
 ## Theory
+<<<<<<< HEAD
 
 The Caesar cipher, also known as the shift cipher, is one that anyone can readily understand and remember for decoding. It is a form of the substitution cipher. By shifting the alphabet a few positions in either direction, a simple sentence can become unreadable to casual inspection.
 
@@ -15,6 +20,9 @@ The Vigenère cipher is a method of encrypting alphabetic text by using a series
 
 The Playfair cipher is one of the traditional ciphers which comes under the category of substitution ciphers. The cipher's essential method involves creating key tables that arrange the letters of the alphabet into a square grid. With these key tables, the user separates the text of a message into two-letter bits. To encode the message, each two-letter bit is transposed on the 5x5 key table. Thus, to decode the message, the receiver requires the key table itself. Since the table/grid can accommodate only 25 characters, there is no ‘J’ in this table. Any ‘J’ in the plaintext is replaced by ‘I’. 
 
+=======
+If needed and written by the author.
+>>>>>>> origin/Lab2
 
 
 ## Objectives:
@@ -31,6 +39,7 @@ The Playfair cipher is one of the traditional ciphers which comes under the cate
 
 ## Implementation description
 
+<<<<<<< HEAD
 * Firt of all there is the Cipher interface in which the alphabet size is set to 26(for English), and the abstract methods encrypt() and decrypt(), which are going to be overridden in later class implementations.
 
 ```
@@ -315,4 +324,21 @@ Classical ciphers are part of history and they range in complexity from very sim
 ![image](https://user-images.githubusercontent.com/41265306/192862791-9c140d2d-ec42-47ee-a292-174489dd0058.png)
 
 
+=======
+* Firt of all I have the Cipher interface in which the alphabet size is set to 26(because English is used), and abstract 
+* methods.
+
+
+
+```
+public static void main() 
+{
+
+}
+```
+
+
+
+## Conclusions / Screenshots / Results
+>>>>>>> origin/Lab2
 

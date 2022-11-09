@@ -1,6 +1,6 @@
-package Lab1;
+package Ciphers.ClassicalCiphers;
 
-public interface Cipher {
+public interface ClassicalCipher {
     int ALPHABET_SIZE = 26;
     String encrypt(String message);
     String decrypt(String encryptedMessage);

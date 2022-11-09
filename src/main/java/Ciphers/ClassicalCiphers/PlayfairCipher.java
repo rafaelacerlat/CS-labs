@@ -1,12 +1,10 @@
-package Lab1.Ciphers;
-
-import Lab1.Cipher;
+package Ciphers.ClassicalCiphers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class PlayfairCipher implements Cipher {
+public class PlayfairCipher implements ClassicalCipher {
     String key;
     char[][] matrix = new char[5][5];
     private String newAlphabet = "";

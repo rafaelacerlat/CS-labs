@@ -1,8 +1,6 @@
-package Lab1.Ciphers;
+package Ciphers.ClassicalCiphers;
 
-import Lab1.Cipher;
-
-public abstract class SubstitutionCipher implements Cipher {
+public abstract class SubstitutionCipher implements ClassicalCipher {
     @Override
     public String encrypt(String message) {
         final String upperCaseMessage = message.toUpperCase();
