@@ -318,7 +318,7 @@ public class DES implements SymmetricCipher {
             // Build the key schedule
             buildKeySchedule(key);
 
-            // if decryption - reverse keys
+            // If decryption - reverse keys
             if(decryption){
                 for (int i = 0; i < K.length / 2; i++) {
                     long temp = K[i];

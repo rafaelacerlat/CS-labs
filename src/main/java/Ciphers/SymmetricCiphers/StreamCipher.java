@@ -37,10 +37,10 @@ public class StreamCipher implements ClassicalCipher {
         char[] messChar = str.toCharArray();
         List<Integer> binary = new ArrayList<>();
 
-        for (int i = 0; i < messChar.length; i++) {
-            tmpStr = Integer.toBinaryString(messChar[i]);
+        for (char value : messChar) {
+            tmpStr = Integer.toBinaryString(value);
             tmpInt = tmpStr.length();
-            if(tmpInt != bits) {
+            if (tmpInt != bits) {
                 tmpInt = bits - tmpInt;
                 if (tmpInt == bits) {
                     result += tmpStr;
