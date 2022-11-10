@@ -117,6 +117,53 @@ byte[] ciphertext = new byte[text.length];
 ```
 
 
-* For DES 
+* For DES the perform() method encrypts or decrypts based on the given boolean parameter.
+```
+ public String perform(String text, String key, boolean decryption){}
+```
+This method goes through the following steps:
+1. It builds the key schedule;
+2. Reverses the keys in case the method is used for decryption;
+3. Adds padding to the message(already tranfformed in binary) if neccesary;
+4. Separates the binary message into blocks;
+5. Encrypts/decrypts each block;
+6. Builds the encrypted/decrypted text from the blocks;
+7. Destroys the key schedule.
 
-..
+So the buildKeySchedule() method uses a hash() function for the key and then converts it to binary, adding leading zeros if the key length is less than 64.
+Then the key is compressed and transposed from a 64-bit key into a 56-bit key using the PC1 table.
+```
+for (int j : PC1) binaryKey_PC1 = binaryKey_PC1 + binaryKey.charAt(j - 1);
+```
+The result is divided into 2 equal parts, that are left-shifted circularly in 16 rounds. For encryption rounds 1, 2, 9, and 16 they are left shifted circularly by 1 bit; for all of the other rounds, they are left-circularly shifted by 2.
+```
+ // Split permuted string in half | 56/2 = 28
+        String leftString = binaryKey_PC1.substring(0, 28);
+        String rightString = binaryKey_PC1.substring(28);
+
+        // Parse binary strings into integers for shifting
+        int leftInteger = Integer.parseInt(leftString, 2);
+        int rightInteger = Integer.parseInt(rightString, 2);
+```
+After the 2 parts are shifted according to key shift array, they are merged together and converted to binary.
+```
+// Perform left shifts according to key shift array
+            leftInteger = Integer.rotateLeft(leftInteger, KEY_SHIFTS[i]);
+            rightInteger = Integer.rotateLeft(rightInteger, KEY_SHIFTS[i]);
+
+            // Merge the two halves
+            long merged = ((long)leftInteger << 28) + rightInteger;
+
+            // 56-bit merged
+            String sMerged = Long.toBinaryString(merged);
+```
+The result is compressed to 48 bits in accordance with the PC2 table.
+```
+for (int k : PC2) binaryKey_PC2 = binaryKey_PC2 + sMerged.charAt(k - 1);
+```
+
+The processBlock() method encrypts/ decrypts the input block...
+
+
+
+
