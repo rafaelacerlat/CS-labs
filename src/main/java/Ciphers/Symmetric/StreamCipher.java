@@ -1,6 +1,6 @@
-package Ciphers.SymmetricCiphers;
+package Ciphers.Symmetric;
 
-import Ciphers.ClassicalCiphers.ClassicalCipher;
+import Ciphers.Classical.ClassicalCipher;
 
 import java.util.ArrayList;
 import java.util.Arrays;

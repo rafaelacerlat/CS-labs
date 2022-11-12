@@ -1,4 +1,4 @@
-package Ciphers.ClassicalCiphers;
+package Ciphers.Classical;
 
 public class CaesarCipher extends SubstitutionCipher{
 
@@ -10,11 +10,11 @@ public class CaesarCipher extends SubstitutionCipher{
     }
     @Override
     protected Character encryptCharacter(Character currentChar) {
-        return (char) (((currentChar + key - 65) % ALPHABET_SIZE) + 65);
+        return (char) (((currentChar + key - 65) % 26) + 65);
     }
 
     @Override
     protected Character decryptCharacter(Character currentChar) {
-        return (char) (((currentChar + key - 65) % ALPHABET_SIZE) + 65);
+        return (char) (((currentChar + key - 65) % 26) + 65);
     }
 }

@@ -1,4 +1,4 @@
-package Ciphers.ClassicalCiphers;
+package Ciphers.Classical;
 
 public class CaesarCipherWithPermutation extends  SubstitutionCipher{
     private final int key;

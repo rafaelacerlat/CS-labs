@@ -1,5 +1,6 @@
-package Ciphers.ClassicalCiphers;
+package Ciphers.Classical;
 
+import Ciphers.Cipher;
 import org.junit.jupiter.api.Test;
 
 class VigenereCipherTest {
@@ -8,7 +9,7 @@ class VigenereCipherTest {
         String message = "This is a secret message";
         String keyword = "lemon";
 
-        ClassicalCipher classicalCipher2 = new VigenereCipher(message, keyword);
+        Cipher classicalCipher2 = new VigenereCipher(message, keyword);
         String encrypted = classicalCipher2.encrypt(message);
 
         System.out.println("Vigenere Cipher:");
