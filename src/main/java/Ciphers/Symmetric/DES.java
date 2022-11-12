@@ -1,11 +1,13 @@
-package Ciphers.SymmetricCiphers;
+package Ciphers.Symmetric;
 
+
+import Ciphers.Cipher;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-public class DES implements SymmetricCipher {
+public class DES implements Cipher {
     private static int[] PC1 =
             {
                     57, 49, 41, 33, 25, 17,  9,
@@ -138,6 +140,12 @@ public class DES implements SymmetricCipher {
 
     private long[] K = new long[16];
     private static int[] KEY_SHIFTS = { 1,  1,  2,  2,  2,  2,  2,  2,  1,  2,  2,  2,  2,  2,  2,  1 };
+
+    private final String key;
+
+    public DES(String key) {
+        this.key = key;
+    }
 
 
     private static String binToHex(String bin) {
@@ -312,7 +320,7 @@ public class DES implements SymmetricCipher {
         return permutated;
     }
 
-    public String perform(String text, String key, boolean decryption){
+    public String perform(String text, boolean decryption){
         {
 
             // Build the key schedule
@@ -416,12 +424,12 @@ public class DES implements SymmetricCipher {
 
 
     @Override
-    public String encrypt(String message, String key) {
-        return binToHex(perform(utfToBin(message), key, false));
+    public String encrypt(String message) {
+        return binToHex(perform(utfToBin(message), false));
     }
 
     @Override
-    public String decrypt(String encryptedMessage, String key) {
-        return binToUTF(perform(hexToBin(encryptedMessage), key, true));
+    public String decrypt(String encryptedMessage) {
+        return binToUTF(perform(hexToBin(encryptedMessage), true));
     }
 }

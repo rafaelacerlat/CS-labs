@@ -1,6 +1,7 @@
-package Ciphers.ClassicalCiphers;
+package Ciphers.Classical;
 
 
+import Ciphers.Cipher;
 import org.junit.jupiter.api.Test;
 
 class CaesarCipherTest {
@@ -9,7 +10,7 @@ class CaesarCipherTest {
         String message = "This is a secret message";
         int key = 13;
 
-        ClassicalCipher classicalCipher = new CaesarCipher(key);
+        Cipher classicalCipher = new CaesarCipher(key);
         String encrypted = classicalCipher.encrypt(message);
 
         System.out.println("\nCaesar Cipher:");

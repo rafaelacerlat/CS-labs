@@ -1,6 +1,7 @@
-package Ciphers.ClassicalCiphers;
+package Ciphers.Classical;
 
 
+import Ciphers.Cipher;
 import org.junit.jupiter.api.Test;
 
 class CaesarCipherWithPermutationTest {
@@ -10,7 +11,7 @@ class CaesarCipherWithPermutationTest {
         String keyword = "lemon";
         int key = 13;
 
-        ClassicalCipher classicalCipher3 = new CaesarCipherWithPermutation(key, keyword);
+        Cipher classicalCipher3 = new CaesarCipherWithPermutation(key, keyword);
         String encrypted = classicalCipher3.encrypt(message);
 
         System.out.println("\nCaesar Cipher with permutation:");

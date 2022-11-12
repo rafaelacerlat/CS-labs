@@ -1,12 +1,18 @@
-package Ciphers.SymmetricCiphers;
+package Ciphers.Symmetric;
 
+import Ciphers.Cipher;
 import java.util.Base64;
 
 
-public class RC4 implements SymmetricCipher {
+public class RC4 implements Cipher {
     private final byte[] S = new byte[256];
     private final byte[] K = new byte[256];
 
+    private final String key;
+
+    public RC4(String key) {
+        this.key = key;
+    }
 
     private void scheduleKey(String keyword){
 
@@ -51,11 +57,11 @@ public class RC4 implements SymmetricCipher {
         S[i] = tmp;
     }
 
-    public byte[] performAlgorithm(byte[] text, String key){
-
-        byte[] ciphertext = new byte[text.length];
+    public byte[] performAlgorithm(byte[] text){
 
         scheduleKey(key);
+
+        byte[] ciphertext = new byte[text.length];
         final byte[] keyStream = PRGA(text.length);
         for(int i = 0; i < text.length; i++){
             ciphertext[i] = (byte) (text[i] ^ keyStream[i]);
@@ -65,16 +71,16 @@ public class RC4 implements SymmetricCipher {
     }
 
     @Override
-    public String encrypt(String message, String key) {
+    public String encrypt(String message) {
         byte[] text = message.getBytes();
-        byte[] encrypted = performAlgorithm(text, key);
+        byte[] encrypted = performAlgorithm(text);
         return Base64.getEncoder().encodeToString(encrypted);
     }
 
     @Override
-    public String decrypt(String encryptedMessage, String key) {
+    public String decrypt(String encryptedMessage) {
         byte[] text = Base64.getDecoder().decode(encryptedMessage);
-        return new String(performAlgorithm(text, key));
+        return new String(performAlgorithm(text));
     }
 
 }
