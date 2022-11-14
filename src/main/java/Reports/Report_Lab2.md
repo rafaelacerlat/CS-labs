@@ -62,6 +62,7 @@ public interface Cipher {
 }
 ```
 
+&nbsp;
 
 * For RC4 a state array S of 256 bytes is initialized and a temporary array T is generated where the elements of the key array are copied into it as shown below:
 ```
@@ -115,9 +116,22 @@ byte[] ciphertext = new byte[text.length];
             ciphertext[i] = (byte) (text[i] ^ keyStream[i]);
         }
 ```
+&nbsp;
 
+* For DES there are a number of helper methods that convert text, such as: binToHex(), binToUTF(), hexToBin(), utfToBin(), hash().
+The encrypt() method takes the original message and sends it to the perform() method in binary form, and returns it in hexadecimal.
+```
+ public String encrypt(String message) {
+     return binToHex(perform(utfToBin(message), false));
+ }
+```
+The decrypt() method takes the encrypted message and sends it to the perform() method in binary form from hexadecimal form optained from encryption. It returns the result in UTF.
+```
+ public String decrypt(String encryptedMessage) {
+    return binToUTF(perform(hexToBin(encryptedMessage), true));
+}
+```
 
-* For DES 
 
 #### perform()
 The perform() method encrypts or decrypts based on the given boolean parameter.
