@@ -54,11 +54,11 @@ For decryption, we use the same algorithm, and we reverse the order of the 16 ro
 
 ## Implementation description
 
-* Firt of all there is the SymmetricCipher interface with the respective methods, encrypt() and decrypt(), that take as parameters the message and the key to either encrypt or decrypt.
+* Firt of all there is the Cipher interface with the respective methods, encrypt() and decrypt(), that take as parameter the message to either encrypt or decrypt.
 ```
-public interface SymmetricCipher {
-    String encrypt(String message, String key);
-    String decrypt(String encryptedMessage, String key);
+public interface Cipher {
+    String encrypt(String message);
+    String decrypt(String encryptedMessage);
 }
 ```
 
@@ -117,9 +117,12 @@ byte[] ciphertext = new byte[text.length];
 ```
 
 
-* For DES the perform() method encrypts or decrypts based on the given boolean parameter.
+* For DES 
+
+#### perform()
+The perform() method encrypts or decrypts based on the given boolean parameter.
 ```
- public String perform(String text, String key, boolean decryption){}
+ public String perform(String text, boolean decryption){}
 ```
 This method goes through the following steps:
 1. It builds the key schedule;
@@ -130,6 +133,7 @@ This method goes through the following steps:
 6. Builds the encrypted/decrypted text from the blocks;
 7. Destroys the key schedule.
 
+#### buildKeySchedule()
 So the buildKeySchedule() method uses a hash() function for the key and then converts it to binary, adding leading zeros if the key length is less than 64.
 Then the key is compressed and transposed from a 64-bit key into a 56-bit key using the PC1 table.
 ```
@@ -161,9 +165,81 @@ The result is compressed to 48 bits in accordance with the PC2 table.
 ```
 for (int k : PC2) binaryKey_PC2 = binaryKey_PC2 + sMerged.charAt(k - 1);
 ```
+#### processBlock()
+The processBlock() method encrypts/ decrypts the input block and goes through the following steps:
+1. Transposes the block according to the initial permutation table
+```
+ String out = "";
+ for (int k : IP) {
+   out = out + plaintextBlock.charAt(k - 1);
+ }
+```
+2. Divides the result into equal parts: left plain text (1-32 bits) and right plain text (33-64 bits)
+```
+ String leftText = out.substring(0, 32);
+ String rightText = out.substring(32);
+```
+3. The resulting parts undergo 16 rounds of encryption in each round 
+4. The right plain text goes through the Feistel function
+5. The 32 bit result is XORed with the left plain text
+6. Stores the initial right plain text in the left plain text
+7. Stores the XOR result in the right plain text.
+8. Finally, the inverse permutation (inverse of the initial permutation) is applied, and the ciphertext/ decrypted text will be generated.
 
-The processBlock() method encrypts/ decrypts the input block...
+#### Feistel()
+The Feistel() process involves numerous rounds of processing plain text. The given right plain text is expanded using the expansion table:
+```
+String expandedRightText = "";
+for (int value : expansion) {
+   expandedRightText += rightText.charAt(value - 1);
+}
+```
+Then the expanded right plain text now consists of 48 bits and is XORed with the 48-bit key.
+```
+long m =  Long.parseLong(expandedRightText, 2);
+long k = Long.parseLong(key, 2);
 
+long result = m ^ k;
+```
+The result of the previous step is divided into 8 boxes. Each box contains 6 bits.
+```
+String[] boxes = new String[8];
+for (int i = 0; i < 8; i++) {
+    boxes[i] = binary.substring(0, 6);
+    binary = binary.substring(6);
+}
+```
+Then going through the eight substitution boxes, each box is reduced from 6 bits to 4 bits. The first and last bit of each box provides the row index, and the remaining bits provide the column index. These indices are used to look-up values in a substitution box. A substitution box has 4 rows, 16 columns, and contains numbers from 0 to 15.
+```
+String[] results = new String[8];
+ for (int i = 0 ; i < 8; i++) {
+     int[][] currentBox = s[i];
+     String currentString = boxes[i];
 
+     // Get binary values
+      int row = Integer.parseInt(currentString.charAt(0) + "" + currentString.charAt(5), 2);
+      int col = Integer.parseInt(currentString.substring(1, 5), 2);
 
+     // Substitution box table lookup
+      results[i] = Integer.toBinaryString(currentBox[row][col]);
+
+     // Make sure the string is 4 bits
+       while(results[i].length() < 4)
+       results[i] = "0" + results[i];
+}
+```
+After that, the result is merged together and transposed in accordance with the permutation table:
+```
+  // Merge S-Box outputs into one 32-bit string
+  String merged = "";
+  for (int i = 0; i < 8; i++) {
+      merged = merged + results[i];
+  }
+
+  // Apply Permutation
+  String permutated = "";
+  for (int j : permutation) {
+      permutated = permutated + merged.charAt(j - 1);
+  }
+```
 
