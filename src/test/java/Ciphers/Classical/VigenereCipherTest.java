@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 class VigenereCipherTest {
     @Test
     void name() {
-        String message = "This is a secret message";
-        String keyword = "lemon";
+        String message = "DRAGON";
+        String keyword = "XO";
 
         Cipher classicalCipher2 = new VigenereCipher(message, keyword);
         String encrypted = classicalCipher2.encrypt(message);
