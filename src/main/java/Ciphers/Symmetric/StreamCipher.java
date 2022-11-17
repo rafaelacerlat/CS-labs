@@ -1,13 +1,13 @@
 package Ciphers.Symmetric;
 
-import Ciphers.Classical.ClassicalCipher;
+import Ciphers.Cipher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class StreamCipher implements ClassicalCipher {
+public class StreamCipher implements Cipher {
     private  List<Integer> keyword = new ArrayList<>();
     private List<Integer> messageInBinary;
 

@@ -3,6 +3,9 @@ package Ciphers.Classical;
 import Ciphers.Cipher;
 
 public abstract class SubstitutionCipher implements Cipher {
+
+    int ALPHABET_SIZE = 26;
+
     @Override
     public String encrypt(String message) {
         final String upperCaseMessage = message.toUpperCase();
