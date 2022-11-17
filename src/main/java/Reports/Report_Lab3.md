@@ -30,11 +30,70 @@ Those numbers need to be large so that they will be difficult for someone to fig
     BigInteger y = BigInteger.probablePrime(number/2, new SecureRandom());
     ```
 2. The modulus <em><strong>n</strong></em> is the product of <em><strong>x</strong></em> and <em><strong>y</strong></em>.
+    ```
+    private BigInteger n;
+    
+    n = x.multiply(y);
+    ```
+3. There's the Carmichael's totient function computed by the following formula: <em><strong>ϕ(n)=(x−1)(y−1)</strong></em>.
+    ```
+    BigInteger totient = (x.subtract(BigInteger.ONE)).multiply(y.subtract(BigInteger.ONE));
+    ```
+4. Finding the integer <em><strong>e</strong></em> such that <em><strong>1 < e < ϕ(n)</strong></em> and <em><strong>gcd(e, ϕ(n)) = 1</strong></em>; that is, e and ϕ(n) are coprime.
+    ```
+    private BigInteger e;
+    
+    e = coprime(totient, number);
+    
+      private static BigInteger coprime(BigInteger totient, int number){
+        Random random = ThreadLocalRandom.current();
+        BigInteger e;
+        do {
+            e = new BigInteger(number, random);
+        } while (e.min(totient).equals(totient) & !gcd(totient, e).equals(BigInteger.ONE));
 
-
-
+        return e;
+      }
+    ```
+    The pair of numbers <em><strong>(n,e)</strong></em> makes up the public key.
+5. Finding <em><strong>d</strong></em> as $d ≡ e^−1 (mod λ(n))$ ; that is, <em><strong>d</strong></em> is the modular multiplicative inverse of <em><strong>e mod ϕ(n)</strong></em>. 
+  This <em><strong>d</strong></em> can be found using the extended euclidean algorithm. 
+    ```
+    private BigInteger d;
+    
+    d = extendedEuclidean(e, totient)[1];
+    
+     private static BigInteger[] extendedEuclidean(BigInteger a, BigInteger b){
+        if(b.equals(BigInteger.ZERO))
+            return new BigInteger[]{a, BigInteger.ONE, BigInteger.ZERO};
+        BigInteger[] values = extendedEuclidean(b, a.mod(b));
+        BigInteger x = values[0];
+        BigInteger y = values[2];
+        BigInteger z =  values[1].subtract(a.divide(b).multiply(y));
+        return new BigInteger[]{x, y, z};
+     }
+    ```
+  The pair of numbers <em><strong>(n,d)</strong></em> makes up the private key.
 
 #### Encryption
-
-
+  Given a plaintext <em><strong>P</strong></em>, represented as a number, the ciphertext <em><strong>C</strong></em> is calculated as: 
+  $C = P^e mod n$
+  ```
+   @Override
+    public String encrypt(String message) {
+        BigInteger encrypted = new BigInteger(message.getBytes()).modPow(e,n);
+        return  Base64.getEncoder().encodeToString(encrypted.toByteArray()) ;
+    }
+   ```
 #### Decryption
+  Using the private key <em><strong>(n,d)</strong></em>, the plaintext can be found using:
+  $P = C^d mod n$
+  ```
+   @Override
+    public String decrypt(String encryptedMessage) {
+        BigInteger decrypted = new BigInteger(Base64.getDecoder().decode(encryptedMessage)).modPow(d,n);
+        return new String(decrypted.toByteArray());
+    }
+   ```
+  
+  
