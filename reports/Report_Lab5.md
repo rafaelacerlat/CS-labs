@@ -105,11 +105,49 @@ public class UserDetailsImpl implements UserDetails {
 }
 ```
 ### [Authentication](https://github.com/rafaelacerlat/CS-labs/blob/master/src/main/java/web/app/controller/AuthController.java)
-During sign up, user’s details should be collected and persisted in the users table. Also their roles should be mapped.
+During signup, user’s details should be collected and persisted in the users table. Also their roles should be mapped.
+
+Here is an example of signing up a new user through Postman:
+![image](https://user-images.githubusercontent.com/41265306/208195306-d2d0361b-1afc-46bf-9f65-6065be1b19f6.png)
+
+
 Further to that, during each login process, a JWT token should be generated (with the help of JwtUtils) and passed to the client in order to send in subsequent requests.
+
+![image](https://user-images.githubusercontent.com/41265306/208195479-aa913fc8-b323-4fd9-8da6-945805f7cddf.png)
+
+
 
 ### [Authorization](https://github.com/rafaelacerlat/CS-labs/blob/master/src/main/java/web/app/controller/CiphersController.java)
 As mentioned before, AuthenticationTokenFilter will filter and permit only the requests containing valid JWT tokens.
+
+In CiphersController we will allow calling a certain URL only if the user has the corresponding role privilege. The Spring Security provided *@PreAuthorize* annotation is used for this purpose. Public APIs will not contain this annotation and will allow any authenticated user in.
+
+So users with the role of SIMPLE_USER can access and use the Caesar and Playfair ciphers (using the token generated at login):
+![image](https://user-images.githubusercontent.com/41265306/208197019-1ee97742-7892-4066-ace3-9d4131df9164.png)
+
+
+
+![image](https://user-images.githubusercontent.com/41265306/208196225-19694791-09b9-4347-a6f0-92a472b22543.png)
+![image](https://user-images.githubusercontent.com/41265306/208196432-b3167e46-5247-49df-b132-a395bb0ae218.png)
+
+
+In AdminController we give the posibility to the user with the role of ADMIN to delete any user using their username.
+```
+@RestController
+@RequestMapping("/admin")
+public class AdminController {
+    @Autowired
+    UserService userService;
+
+    @DeleteMapping("/{username}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void deleteTickets(@PathVariable String username){
+        userService.deleteByUsername(username);
+    }
+
+}
+```
+
 
 
 
