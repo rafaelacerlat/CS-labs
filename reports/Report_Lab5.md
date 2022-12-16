@@ -47,7 +47,7 @@ The main used dependencies are:
 1. Spring Web
 2. Spring Data JPA
 3. Spring Security
-4. MySQL Driver
+4. PostgreSQL Driver
 5. JSON Web Token
 
 
