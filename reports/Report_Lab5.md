@@ -30,6 +30,8 @@ https://jwt.io says, JSON Web Token (JWT) is an open standard (RFC 7519) that de
 4. In the subsequent requests, client send the JWT token. A common place to send it is the Authorisation header using Bearer schema.
 5. Server will decode the token and authorise the user using the sent data.
 
+![0_sxUrFN61PAoScWED](https://user-images.githubusercontent.com/41265306/208197763-8179a73c-ce3e-45fe-8dca-390c89ac7971.png)
+
 ----
 
 ## Objectives:
